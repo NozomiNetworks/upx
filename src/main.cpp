@@ -1416,7 +1416,7 @@ extern "C" { extern long _stksize; long _stksize = 256 * 1024L; }
 extern "C" { extern int _dowildcard; int _dowildcard = -1; }
 #endif
 
-int maincode(int argc, char *argv[])
+static int maincode(int argc, char *argv[])
 {
     int i;
     static char default_argv0[] = "upx";
@@ -1565,7 +1565,7 @@ int maincode(int argc, char *argv[])
     return exit_code;
 }
 
-void reset()
+static void reset()
 {
   done_output_name = 0;
   UiPacker::resetCounters();
