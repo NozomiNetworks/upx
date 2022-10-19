@@ -25,13 +25,18 @@
    <markus@oberhumer.com>               <ezerotven+github@gmail.com>
  */
 
-
 #include "conf.h"
 #include "compress.h"
 #include "file.h"
 #include "packer.h"
 #include "p_elf.h"
+#include "ui.h"
 
+#include <fstream>
+#include <iostream>
+#include <string>
+#include <vector>
+#include <unistd.h>
 
 #if 1 && (ACC_OS_DOS32) && defined(__DJGPP__)
 #include <crt0.h>
@@ -1411,7 +1416,7 @@ extern "C" { extern long _stksize; long _stksize = 256 * 1024L; }
 extern "C" { extern int _dowildcard; int _dowildcard = -1; }
 #endif
 
-int __acc_cdecl_main main(int argc, char *argv[])
+int maincode(int argc, char *argv[])
 {
     int i;
     static char default_argv0[] = "upx";
@@ -1560,6 +1565,62 @@ int __acc_cdecl_main main(int argc, char *argv[])
     return exit_code;
 }
 
+void reset()
+{
+  done_output_name = 0;
+  UiPacker::resetCounters();
+}
+
+int __acc_cdecl_main main(int argc, char *argv[])
+{
+  if (argc == 3)
+  {
+    if (std::string(argv[1]) == "in")
+    {
+      const std::string lockFilePath = argv[2];
+      std::string buffer;
+      while (std::getline(std::cin, buffer))
+      {
+        if (buffer == "exit")
+        {
+          return 0;
+        }
+        else
+        {
+          size_t pos = 0;
+          std::string arg;
+          std::string s(buffer);
+          const std::string delimiter = " ";
+          std::vector<std::string> parts;
+          while ((pos = s.find(delimiter)) != std::string::npos)
+          {
+              arg = s.substr(0, pos);
+              parts.push_back(arg);
+              s.erase(0, pos + delimiter.length());
+          }
+          parts.push_back(s.substr(0, s.size()));
+          std::vector<char*> vecArgs;
+          char dummy1stArg[] = "upx";
+          vecArgs.push_back(dummy1stArg);
+          for (unsigned long ii = 0; ii < parts.size(); ++ii)
+          {
+            char * partData = const_cast<char*>(parts[ii].data());
+            vecArgs.push_back(partData);
+          }
+          reset();
+          maincode(
+            static_cast<int>(parts.size() + 1),
+            &vecArgs[0]
+          );
+          std::ofstream outLock(lockFilePath);
+          outLock << "";
+          outLock.close();
+        }
+      }
+    }
+  }
+  return -1;
+}
 #endif /* !(WITH_GUI) */
 
 /* vim:set ts=4 sw=4 et: */

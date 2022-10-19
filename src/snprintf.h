@@ -49,8 +49,8 @@ upx_rsize_t upx_strlen(const char *);
 #endif
 
 // globally redirect some functions
-#undef sprintf
-#define sprintf error_sprintf_is_dangerous_use_snprintf
+// #undef sprintf
+// #define sprintf error_sprintf_is_dangerous_use_snprintf
 #undef strlen
 #define strlen upx_strlen
 

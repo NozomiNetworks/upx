@@ -100,10 +100,10 @@ static void init_global_constants(void) {
 #if 0 && (ACC_OS_DOS16 || ACC_OS_DOS32)
     // FIXME: should test codepage here
 
-    static bool done = false;
-    if (done)
-        return;
-    done = true;
+    // static bool done = false;
+    // if (done)
+    //     return;
+    // done = true;
 
 #if 1 && (ACC_OS_DOS32) && defined(__DJGPP__)
     /* check for Windows NT/2000/XP */
@@ -187,6 +187,19 @@ UiPacker::~UiPacker() {
     cb.reset();
     delete s;
     s = NULL;
+}
+
+void UiPacker::resetCounters() {
+  UiPacker::total_files = 0;
+  UiPacker::total_files_done = 0;
+  UiPacker::total_c_len = 0;
+  UiPacker::total_u_len = 0;
+  UiPacker::total_fc_len = 0;
+  UiPacker::total_fu_len = 0;
+  UiPacker::update_c_len = 0;
+  UiPacker::update_u_len = 0;
+  UiPacker::update_fc_len = 0;
+  UiPacker::update_fu_len = 0;
 }
 
 /*************************************************************************
@@ -595,10 +608,10 @@ void UiPacker::uiFileInfoTotal() {}
 **************************************************************************/
 
 void UiPacker::uiHeader() {
-    static bool done = false;
-    if (done)
-        return;
-    done = true;
+    // static bool done = false;
+    // if (done)
+    //     return;
+    // done = true;
     if (opt->cmd == CMD_TEST || opt->cmd == CMD_FILEINFO)
         return;
     if (opt->verbose >= 1) {
@@ -607,10 +620,10 @@ void UiPacker::uiHeader() {
 }
 
 void UiPacker::uiFooter(const char *t) {
-    static bool done = false;
-    if (done)
-        return;
-    done = true;
+    // static bool done = false;
+    // if (done)
+    //     return;
+    // done = true;
     if (opt->verbose >= 1) {
         assert(total_files >= total_files_done);
         unsigned n1 = total_files;

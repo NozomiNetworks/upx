@@ -44,6 +44,8 @@ public:
 public:
     virtual ~UiPacker();
 
+    static void resetCounters();
+
     static void uiConfirmUpdate();
     static void uiPackTotal();
     static void uiUnpackTotal();
