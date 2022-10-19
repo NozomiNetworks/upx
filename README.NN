@@ -1,0 +1,13 @@
+To compile NN interactive version
+
+git clone git@github.com:NozomiNetworks/upx-vendor-ucl.git -b devel
+cd upx-vendor-ucl
+./configure
+make
+export UPX_UCLDIR=/tmp/upx-vendor-ucl
+
+cd ..
+git clone git@github.com:NozomiNetworks/upx.git -b nn-interactive
+cd upx
+make all
+sudo cp src/upx.out /usr/local/bin/nnupx
