@@ -86,7 +86,7 @@ upx$(exeext): $(upx_OBJECTS) $(upx_DEPENDENCIES)
 	$($(notdir $@).PRE_LINK_STEP)
 	$(strip $(CXXLD) $(call ee,CXXFLAGS) $(call ee,LDFLAGS) -o $@ $(upx_OBJECTS) $(call ee,LDADD) $(call ee,LIBS))
 	$($(notdir $@).POST_LINK_STEP)
-	$(CHECK_WHITESPACE)
+# $(CHECK_WHITESPACE)
 
 %.o : %.cpp | ./.depend
 	$(strip $(CXX) $(call ee,CPPFLAGS) $(call ee,CXXFLAGS) -o $@ -c $<)
