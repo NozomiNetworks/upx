@@ -70,6 +70,7 @@ CXXFLAGS += -funsigned-char
 CXXFLAGS += -Wall -W -Wcast-align -Wcast-qual -Wmissing-declarations -Wpointer-arith -Wshadow -Wvla -Wwrite-strings
 CXXFLAGS_WERROR ?= -Werror
 CXXFLAGS += $(CXXFLAGS_WERROR)
+CXXFLAGS += -static
 
 ifeq ($(BUILD_TYPE_SANITIZE),1)
 CXXFLAGS_SANITIZE ?= -fsanitize=address,undefined -fno-omit-frame-pointer -DACC_CFG_NO_UNALIGNED
